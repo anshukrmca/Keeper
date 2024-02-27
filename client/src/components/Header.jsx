@@ -13,10 +13,6 @@ export default function Header({ setSideBarOpen, SideBarOpen }) {
 
   const { currentUser } = useSelector((state) => state.user);
   
-  console.log(currentUser);
-
-
-
   return (
     <div className="flex w-[100%] sticky top-0 items-center justify-between gap-4 bg-gray-100 p-2 px-4 shadow-md z-50">
       <div className="flex flex-shrink-0 gap-3 items-center">
