@@ -30,7 +30,6 @@ export default function Profile({ setSideBarOpen, SideBarOpen }) {
   useEffect(() => {
     if (image) {
       handleFileUpload(image);
-      console.log(image);
     }
   }, [image]);
 
@@ -87,7 +86,6 @@ export default function Profile({ setSideBarOpen, SideBarOpen }) {
       setTimeout(() => {
         navigate('/');
       }, 2000);
-      console.log(data)
     } catch (error) {
       console.log(error);
     }

@@ -57,7 +57,6 @@ const DataView = ({ item }) => {
   const [ThemeColor, setThemeColor] = useState("whitesmoke");
   const [formattedDateTime, setFormattedDateTime] = useState('');
   const currentUser = useSelector(selectUser);
-  console.log(currentUser);
 
   useEffect(() => {
     const formattedDateTime = new Date(item?.createdAt).toLocaleString('en-US', {

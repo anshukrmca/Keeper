@@ -14,8 +14,6 @@ const Notes = ({ setSideBarOpen, SideBarOpen }) => {
   const dispatch = useDispatch();
   const note = useSelector(selectNotes);
 
-  console.log(note)
-
   useEffect(() => {
     if (currentUser) {
       dispatch(getNotes());

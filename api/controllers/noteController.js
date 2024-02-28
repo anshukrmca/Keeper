@@ -23,10 +23,6 @@ export const getNotebyUser = async (req, res, next) => {
     const userId = req.user.id;  // Directly access req.user.id
     try {
         const notes = await Note.find({userId:userId}).sort({ createdAt: -1 });
-        // if (!notes || notes.length === 0) {
-        //     return res.status(404).json({ error: 'Notes not found for the user' });
-        // }
-        console.log("notes by user",notes);
         res.status(200).json({ notes });
     } catch (error) {
         next(error);

@@ -41,7 +41,6 @@ if(currentUser){
     useEffect(() => {
         if (image) {
             handleFileUpload(image);
-            console.log(image);
         }
     }, [image]);
 
