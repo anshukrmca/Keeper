@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
 import Header from '../components/Header';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -14,14 +15,15 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/auth/signup', formData);
+      const res = await axios.post('/api/auth/signup',formData);
       const data = res.data;
       console.log(data);
-      toast.success(data)
+      toast.success(data.message)
       setTimeout(() => {
         navigate('/sign-in');
       }, 2000);
     } catch (error) {
+      toast.error('Email is already exist')
     }
   };
   return (
