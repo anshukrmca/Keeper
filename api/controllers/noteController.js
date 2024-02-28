@@ -20,17 +20,18 @@ export const AddNote = async (req, res, next) => {
 
 
 export const getNotebyUser = async (req, res, next) => {
-    const { id } = req.params;
+    const userId = req.user.id;  // Directly access req.user.id
     try {
-        const note = await Note.find({ userId: id });
-        if (!note) {
-            return res.status(404).json({ error: 'Note not found' });
+        const notes = await Note.find({userId:userId}).sort({ createdAt: -1 });
+        if (!notes || notes.length === 0) {
+            return res.status(404).json({ error: 'Notes not found for the user' });
         }
-        res.status(200).json({ note });
+        res.status(200).json({ notes });
     } catch (error) {
         next(error);
     }
 };
+
 
 
 export const deleteNoteByid = async (req, res, next) => {

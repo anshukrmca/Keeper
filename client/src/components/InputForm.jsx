@@ -68,7 +68,6 @@ const InputForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
         try {
             const res = await fetch('/api/note', {
                 method: 'POST',

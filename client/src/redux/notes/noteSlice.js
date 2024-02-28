@@ -1,18 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
+import axios from 'axios'
 
 // Action
 export const getNotes = createAsyncThunk("getNotes", async (_, { getState }) => {
   try {
     const currentUser = getState().user.currentUser;
-    const res = await fetch(`/api/note/${currentUser._id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const data = await res.json();
-    return data.note; // Assuming data is the expected response containing notes
+    const res = await axios.get('/api/note');
+    // console.log(res.data.notes);
+    return res.data.notes;
   } catch (error) {
     throw new Error(`Error in getNotes: ${error.message}`);
   }
