@@ -2,9 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 
 // Action
-export const getNotes = createAsyncThunk("getNotes", async (_, { getState }) => {
+export const getNotes = createAsyncThunk("getNotes", async () => {
   try {
-    const currentUser = getState().user.currentUser;
     const res = await axios.get('/api/note');
     // console.log(res.data.notes);
     return res.data.notes;

@@ -3,12 +3,12 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
-import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import Notes from './pages/Notes';
 import { useState } from 'react';
-
 import 'react-toastify/dist/ReactToastify.css';
+
+
 export default function App() {
 
   const [SideBarOpen, setSideBarOpen] = useState(false);

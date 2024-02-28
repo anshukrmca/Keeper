@@ -6,12 +6,15 @@ import { FaList } from 'react-icons/fa'
 import { CiGrid41 } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
 import { getNotes, selectNotes } from '../redux/notes/noteSlice'
+import { selectUser } from '../redux/user/userSlice'
 
 const Notes = ({ setSideBarOpen, SideBarOpen }) => {
   const [listView, setListView] = useState(true);
-  const { currentUser } = useSelector((state) => state.user);
+  const currentUser = useSelector(selectUser);
   const dispatch = useDispatch();
   const note = useSelector(selectNotes);
+
+  console.log(note)
 
   useEffect(() => {
     if (currentUser) {
@@ -39,11 +42,16 @@ const Notes = ({ setSideBarOpen, SideBarOpen }) => {
         </div>
 
         <div className={`${listView ? 'grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4' : ''}`}>
-          {note && note.map((item, i) => {
-            return (
-              <DataView item={item} key={i} />
+          {
+            note && note.length > 0 ? (
+              note.map((item, i) => (
+                <DataView item={item} key={i} />
+              ))
+            ) : (
+              <p>You have no any Notes</p>
             )
-          })}
+          }
+
         </div>
 
       </div>

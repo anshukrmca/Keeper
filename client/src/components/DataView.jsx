@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { BsPin } from "react-icons/bs";
 import { MdNotificationImportant } from "react-icons/md";
@@ -8,9 +8,12 @@ import { CiImageOn } from "react-icons/ci";
 import { TbMailDown } from "react-icons/tb";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getNotes } from '../redux/notes/noteSlice';
 import { toast } from 'react-toastify';
+import { CgNotes } from "react-icons/cg";
+import { selectUser } from '../redux/user/userSlice';
+
 
 const themeColors = [
   '#D2D7A6',
@@ -52,7 +55,22 @@ const DataView = ({ item }) => {
   const [isThemeOpen, setIsThemeOpen] = useState(false);
   const [isHistory, setIsHistory] = useState(false);
   const [ThemeColor, setThemeColor] = useState("whitesmoke");
+  const [formattedDateTime, setFormattedDateTime] = useState('');
+  const currentUser = useSelector(selectUser);
+  console.log(currentUser);
 
+  useEffect(() => {
+    const formattedDateTime = new Date(item?.createdAt).toLocaleString('en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+
+    setFormattedDateTime(formattedDateTime);
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -80,13 +98,13 @@ const DataView = ({ item }) => {
     setIsThemeOpen(!isThemeOpen);
   };
   const handleTheme = async (color) => {
-   setThemeColor(color);
-   setIsThemeOpen(!isThemeOpen);
+    setThemeColor(color);
+    setIsThemeOpen(!isThemeOpen);
   }
 
   return (
     <>
-      <div className='group relative h-fit  rounded-md shadow-md border mb-4 flex flex-col bg-gray-100' style={{backgroundColor:`${ThemeColor}`}}>
+      <div className='group relative h-fit  rounded-md shadow-md border mb-4 flex flex-col bg-gray-100' style={{ backgroundColor: `${ThemeColor}` }}>
         <div className='group-hover:block hidden absolute -mt-2 transform -translate-x-1/2'>
           <IoIosCheckmarkCircle size={20} />
         </div>
@@ -118,7 +136,7 @@ const DataView = ({ item }) => {
                     <Link onClick={() => { handledelete(item._id) }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" >
                       Delete Note
                     </Link>
-                    <Link onClick={() => { setIsHistory(!isHistory) }}className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" >
+                    <Link onClick={() => { setIsHistory(!isHistory) }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" >
                       Version history
                     </Link>
                   </div>
@@ -136,8 +154,8 @@ const DataView = ({ item }) => {
                       themeColors.map((item, i) => {
                         return (
                           <div key={i}
-                          onClick={()=>{handleTheme(item)}}
-                           className='w-6 h-6 cursor-pointer rounded-full'
+                            onClick={() => { handleTheme(item) }}
+                            className='w-6 h-6 cursor-pointer rounded-full'
                             style={{ backgroundColor: `${item}` }}></div>
                         )
                       })
@@ -171,11 +189,14 @@ const DataView = ({ item }) => {
             <p className='text-gray-800 absolute top-4 right-4 cursor-pointer' onClick={() => { setIsHistory(false) }}>
               &#10060;
             </p>
-            <p className='mb-4 font-semibold'>Note Image</p>
-            {item.NotePicture ?
-              <img className='h-[300px] w-[300px] object-contain' src={item.NotePicture} alt='image' />
-              : <p className='h-48 w-48 text-center'>You have no Image for this Note</p>
-            }
+            <p className='mb-4 font-semibold'>Version history</p>
+            <p className='text-center font-extralight'>Download a previous version of your note in text format.</p>
+            <div className='mx-2'>
+              <h4 className='flex gap-4 items-center mt-3'><CgNotes/> {formattedDateTime}</h4>
+              <p className='text-sm font-extralight'>Current Version</p>
+
+              <p className='p-2 uppercase underline'>{currentUser?.username}</p>
+            </div>
           </div>
         </div>
       }

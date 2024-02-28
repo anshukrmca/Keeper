@@ -12,6 +12,7 @@ import { app } from '../firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotes } from '../redux/notes/noteSlice';
 import { toast } from 'react-toastify';
+import { selectUser } from '../redux/user/userSlice';
 
 const InputForm = () => {
     const dispatch = useDispatch()
@@ -20,13 +21,22 @@ const InputForm = () => {
     const [image, setImage] = useState(undefined);
     const [imagePercent, setImagePercent] = useState(0);
     const [imageError, setImageError] = useState(false);
-    const { currentUser } = useSelector((state) => state.user);
+    const currentUser = useSelector(selectUser);
+
     const [formData, setFormData] = useState({
-        userId: currentUser._id,
+        userId: '',
         noteTitle: '',
         noteContent: '',
         NotePicture: ''
     });
+
+useEffect(()=>{
+if(currentUser){
+    setFormData({
+        userId:currentUser._id
+    })
+}
+},[currentUser])
 
     useEffect(() => {
         if (image) {
@@ -81,7 +91,7 @@ const InputForm = () => {
             dispatch(getNotes());
             setaddNew(!addNew);
             setFormData({
-                userId: currentUser._id,
+                userId: '',
                 noteTitle: '',
                 noteContent: '',
                 NotePicture: ''
@@ -113,13 +123,13 @@ const InputForm = () => {
                         enter="ease-out duration-300"
                         leave="ease-in duration-600"
                     >
-                        {/* <input
+                        <input
                             type='text'
-                            value={currentUser._id}
+                            value={currentUser?._id}
                             hidden
                             id="userId"
                             onChange={handleChange}
-                        /> */}
+                        />
                         <input type='text'
                             placeholder='Title'
                             id='noteTitle'
