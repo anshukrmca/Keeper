@@ -8,13 +8,11 @@ import PrivateRoute from './components/PrivateRoute';
 import Notes from './pages/Notes';
 import { useState } from 'react';
 
+import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
 
   const [SideBarOpen, setSideBarOpen] = useState(false);
   return (
-    <BrowserRouter>
-      {/* header */}
-      {/* <Header setSideBarOpen={setSideBarOpen} SideBarOpen={SideBarOpen} /> */}
       <Routes>
         <Route path='/' element={<Home setSideBarOpen={setSideBarOpen} SideBarOpen={SideBarOpen} />} />
         <Route path='/sign-in' element={<SignIn />} />
@@ -26,6 +24,5 @@ export default function App() {
           <Route path='/note' element={<Notes setSideBarOpen={setSideBarOpen} SideBarOpen={SideBarOpen}/>} />
         </Route>
       </Routes>
-    </BrowserRouter>
   );
 }

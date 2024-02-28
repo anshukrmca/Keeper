@@ -2,18 +2,19 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { IoMdMenu } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
-import { FaList } from "react-icons/fa";
-import { CiGrid41 } from "react-icons/ci";
 import { CgMenuGridR } from "react-icons/cg";
-import { useState } from 'react';
 import { IoHomeOutline } from "react-icons/io5";
 import { FaNotesMedical } from "react-icons/fa";
+import { ToastContainer } from 'react-toastify';
+
 
 export default function Header({ setSideBarOpen, SideBarOpen }) {
 
   const { currentUser } = useSelector((state) => state.user);
   
   return (
+    <>
+    <ToastContainer/>
     <div className="flex w-[100%] sticky top-0 items-center justify-between gap-4 bg-gray-100 p-2 px-4 shadow-md z-50">
       <div className="flex flex-shrink-0 gap-3 items-center">
         {currentUser &&
@@ -28,7 +29,7 @@ export default function Header({ setSideBarOpen, SideBarOpen }) {
         </Link>
       </div>
       <div className='bg-gray-300/30 p-2 rounded-md gap-2 items-center w-[400px] hidden md:flex'>
-        <IoIosSearch size={25} className='hover:bg-slate-400 w-10' />
+        <IoIosSearch size={25} />
         <input
           type='text'
           placeholder='Search..'
@@ -65,5 +66,6 @@ export default function Header({ setSideBarOpen, SideBarOpen }) {
         }
       </div>
     </div>
+    </>
   );
 }

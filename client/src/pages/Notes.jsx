@@ -4,39 +4,21 @@ import DataView from '../components/DataView'
 import InputForm from '../components/InputForm'
 import { FaList } from 'react-icons/fa'
 import { CiGrid41 } from 'react-icons/ci'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getNotes, selectNotes } from '../redux/notes/noteSlice'
 
 const Notes = ({ setSideBarOpen, SideBarOpen }) => {
   const [listView, setListView] = useState(true);
   const { currentUser } = useSelector((state) => state.user);
-const [note,setnote]= useState(null)
+  const dispatch = useDispatch();
+  const note = useSelector(selectNotes);
 
   useEffect(() => {
-    const fetchData = async () => {
-      // Check if currentUser is defined before making the fetch
-      if (!currentUser) {
-        return;
-      }
-  
-      try {
-        const res = await fetch(`/api/note/${currentUser._id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        const data = await res.json();
-        setnote(data.note);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        // Handle the error as needed
-      }
-    };
-  
-    fetchData();
-  }, [currentUser]);
+    if (currentUser) {
+      dispatch(getNotes());
+    }
+  }, [dispatch, currentUser]);
 
-  console.log(note)
 
   return (
     <>

@@ -9,10 +9,12 @@ import { CiImageOn } from "react-icons/ci";
 import { TbMailDown } from "react-icons/tb";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getNotes } from '../redux/notes/noteSlice';
+import { toast } from 'react-toastify';
 
 const InputForm = () => {
+    const dispatch = useDispatch()
     const [addNew, setaddNew] = useState(false)
     const fileRef = useRef(null);
     const [image, setImage] = useState(undefined);
@@ -76,7 +78,15 @@ const InputForm = () => {
                 body: JSON.stringify(formData),
             });
             const data = await res.json();
-            console.log(data);
+            toast.success(data.message)
+            dispatch(getNotes());
+            setaddNew(!addNew);
+            setFormData({
+                userId: currentUser._id,
+                noteTitle: '',
+                noteContent: '',
+                NotePicture: ''
+            })
         } catch (error) {
             console.log(error);
         }
@@ -89,12 +99,10 @@ const InputForm = () => {
             <div className='mb-4 p-2 bg-gray-200/30 rounded-md shadow-md'>
                 {!addNew ?
                     <div className='gap-2 items-center mx-auto flex' >
-                        <input
+                        <div
                             onClick={() => { setaddNew(!addNew) }}
-                            type='text'
-                            placeholder='Take a Note'
                             className='w-full bg-transparent outline-none'
-                        />
+                        >Take a Note</div>
                         <div className='flex gap-2'>
                             <FaRegCheckSquare size={18} className='hover:bg-slate-300/50 rounded-full p-2 h-10 w-10 cursor-pointer' />
                             <GoPencil onClick={() => { setOpen(!open) }} size={20} className='hover:bg-slate-300/50 rounded-full p-2 h-10 w-10 cursor-pointer' />
@@ -106,13 +114,13 @@ const InputForm = () => {
                         enter="ease-out duration-300"
                         leave="ease-in duration-600"
                     >
-                        <input
+                        {/* <input
                             type='text'
                             value={currentUser._id}
-                           hidden
+                            hidden
                             id="userId"
-                            onChange={handleChange} 
-                        />
+                            onChange={handleChange}
+                        /> */}
                         <input type='text'
                             placeholder='Title'
                             id='noteTitle'

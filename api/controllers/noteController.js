@@ -11,8 +11,8 @@ export const AddNote = async (req, res, next) => {
             NotePicture,
         });
         // Save the new note to the database
-        const note = await newNote.save();
-        res.status(200).json({ note, message: "Note Add Successfull !" })
+        await newNote.save();
+        res.status(200).json({message: "Note Add Successfull !" })
     } catch (error) {
         next(error);
     }
