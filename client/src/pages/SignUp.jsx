@@ -6,8 +6,6 @@ import axios from 'axios';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -16,8 +14,6 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
-      setError(false);
       const res = await axios.post('/api/auth/signup', formData);
       const data = res.data;
       console.log(data);
@@ -25,10 +21,7 @@ export default function SignUp() {
       setTimeout(() => {
         navigate('/sign-in');
       }, 2000);
-      setLoading(false);
     } catch (error) {
-      setLoading(false);
-      setError(true);
     }
   };
   return (
@@ -59,10 +52,9 @@ export default function SignUp() {
             onChange={handleChange}
           />
           <button
-            disabled={loading}
             className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
           >
-            {loading ? 'Loading...' : 'Sign Up'}
+            Sign Up
           </button>
           <OAuth />
         </form>
@@ -72,7 +64,6 @@ export default function SignUp() {
             <span className='text-blue-500'>Sign in</span>
           </Link>
         </div>
-        <p className='text-red-700 mt-5'>{error && 'Something went wrong!'}</p>
       </div>
     </>
   );
